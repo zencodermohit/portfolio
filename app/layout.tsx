@@ -71,6 +71,13 @@ export const metadata: Metadata = {
     description,
   },
   category: "technology",
+  // Google Search Console ownership proof. Renders as
+  // <meta name="google-site-verification" content="..."> in <head>.
+  // Only works for a URL prefix property; a Domain property needs a DNS
+  // record, which we cannot set on a vercel.app subdomain.
+  verification: {
+    google: "8fQEM0x2088M6jwYvLNXuLckw4F3rykqfiJtjIJ5_Mc",
+  },
 };
 
 export default function RootLayout({
