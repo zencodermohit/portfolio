@@ -2,6 +2,9 @@
  * Everything the site says lives here. Edit this file, not the components.
  */
 
+/** Canonical origin. Update this if you move to a custom domain. */
+export const siteUrl = "https://portfolio-zencodermohit.vercel.app";
+
 export const profile = {
   name: "Mohit Katre",
   first: "Mohit",
