@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+@theme {
+  /* Midnight navy ground */
+  --color-bg: #080b14;
+  --color-bg-2: #0b1020;
+  --color-bg-3: #0f1730;
+  --color-card: #0d1424;
+  --color-card-2: #111a2f;
+
+  /* Blue → violet → rose accent ramp */
+  --color-blue: #3b82f6;
+  --color-violet: #8b5cf6;
+  --color-rose: #f43f5e;
+
+  --color-text: #e7edfa;
+  --color-muted: #a8b9d6;
+  --color-line: #1d2947;
+
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-violet) 45%, transparent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Thin accent scrollbar, matching the ramp */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--color-blue), var(--color-rose));
+    border-radius: 99px;
+    border: 3px solid var(--color-bg);
+  }
+}
+
+/*
+ * One container for every section. Gutters and max width both scale, so the
+ * page fills a 27" monitor without stranding the content in a narrow band,
+ * and still has comfortable margins on a phone.
+ */
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: clamp(1.25rem, 4vw, 2.75rem);
+
+  @media (min-width: 1600px) {
+    max-width: 90rem;
+  }
+}
+
+/* Vertical rhythm that scales with the viewport instead of stepping at sm:. */
+@utility section-y {
+  padding-block: clamp(4rem, 7vw, 8.5rem);
+}
+
+@utility text-hero {
+  font-size: clamp(2.5rem, 5.6vw, 5rem);
+  line-height: 1.05;
+}
+
+@utility text-section {
+  font-size: clamp(1.875rem, 3.2vw, 3rem);
+  line-height: 1.1;
+}
+
+@utility grad-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-blue),
+    var(--color-violet) 45%,
+    var(--color-rose)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility grad-bg {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-blue),
+    var(--color-violet) 48%,
+    var(--color-rose)
+  );
+}
+
+/* Card with a gradient hairline that warms up on hover */
+@utility card {
+  position: relative;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  transition:
+    border-color 300ms ease,
+    transform 300ms ease,
+    box-shadow 300ms ease;
+}
+
+@utility card-hover {
+  &:hover {
+    border-color: color-mix(in srgb, var(--color-blue) 55%, transparent);
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-blue) 18%, transparent),
+      0 18px 40px -18px color-mix(in srgb, var(--color-blue) 60%, transparent);
+  }
+}
+
+/* Soft colour bloom behind hero and section anchors */
+@utility bloom {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/*
+ * Uses the standalone `translate` property, not `transform`, so it composes
+ * with the -50%/-50% centring transform on the orbiting icons instead of
+ * clobbering it.
+ */
+@keyframes float-y {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -9px;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.06);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.float {
+  animation: float-y 5s ease-in-out infinite;
+}
+
+.rise {
+  animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .float,
+  .rise {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
